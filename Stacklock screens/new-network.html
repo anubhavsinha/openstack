@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7"><![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8"><![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9"><![endif]-->
+<!--[if gt IE 8]><!--><html class="no-js"><!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>
+		StackLock - Networks
+	</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width">
+
+	<link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700" rel="stylesheet" type="text/css">
+
+		<link href="assets/css/1.3.0/default/bootstrap.min.css" media="all" rel="stylesheet" type="text/css" id="bootstrap-css">
+        
+		<link href="assets/css/1.3.0/default/adminflare.min.css" media="all" rel="stylesheet" type="text/css" id="adminflare-css">
+
+	
+	<script src="assets/javascripts/1.3.0/modernizr-jquery.min.js" type="text/javascript"></script>
+	<script src="assets/javascripts/1.3.0/bootstrap.min.js" type="text/javascript"></script>
+	<script src="assets/javascripts/1.3.0/adminflare.min.js" type="text/javascript"></script>
+
+	<style type="text/css">
+		/* ======================================================================= */
+		/* Server Statistics */
+		.well.widget-pie-charts .box {
+			margin-bottom: -20px;
+		}
+
+		/* ======================================================================= */
+		/* Why AdminFlare */
+		#why-adminflare ul {
+			position: relative;
+			padding: 0 10px;
+			margin: 0 -10px;
+		}
+
+		#why-adminflare ul:nth-child(2n) {
+			background: rgba(0, 0, 0, 0.02);
+		}
+
+		#why-adminflare li {
+			padding: 8px 10px;
+			list-style: none;
+			font-size: 14px;
+			padding-left: 23px;
+		}
+
+		#why-adminflare li i {
+			color: #666;
+			font-size: 14px;
+			margin: 3px 0 0 -23px;
+			position: absolute;
+		}
+
+
+		/* ======================================================================= */
+		/* Supported Browsers */
+		#supported-browsers header { color: #666; display: block; font-size: 14px; }
+			
+		#supported-browsers header strong { font-size: 18px; }
+
+		#supported-browsers .span10 { margin-bottom: -15px; text-align: center; }
+
+		#supported-browsers .span10 div {
+			margin-bottom: 15px;
+			margin-right: 15px;
+			display: inline-block;
+			width: 120px;
+		}
+
+		#supported-browsers .span10 div:last-child { margin-right: 0; }
+
+		#supported-browsers .span10 img { height: 40px; width: 40px; }
+
+		#supported-browsers .span10 span { line-height: 40px; font-size: 14px; font-weight: 600; }
+		
+		@media (max-width: 767px) {
+			#supported-browsers header { text-align: center; margin-bottom: 20px; }
+		}
+
+		/* ======================================================================= */
+		/* Status panel */
+		.status-example { line-height: 0; position:relative; top: 22px }
+	</style>
+	
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$('a[rel=tooltip]').tooltip();
+
+			// Easy Pie Charts
+			var easyPieChartDefaults = {
+				animate: 2000,
+				scaleColor: false,
+				lineWidth: 12,
+				lineCap: 'square',
+				size: 100,
+				trackColor: '#e5e5e5'
+			}
+			$('#easy-pie-chart-1').easyPieChart($.extend({}, easyPieChartDefaults, {
+				barColor: '#3da0ea'
+			}));
+			$('#easy-pie-chart-2').easyPieChart($.extend({}, easyPieChartDefaults, {
+				barColor: '#e7912a'
+			}));
+			$('#easy-pie-chart-3').easyPieChart($.extend({}, easyPieChartDefaults, {
+				barColor: '#bacf0b'
+			}));
+			$('#easy-pie-chart-4').easyPieChart($.extend({}, easyPieChartDefaults, {
+				barColor: '#4ec9ce'
+			}));
+			$('#easy-pie-chart-5').easyPieChart($.extend({}, easyPieChartDefaults, {
+				barColor: '#ec7337'
+			}));
+			$('#easy-pie-chart-6').easyPieChart($.extend({}, easyPieChartDefaults, {
+				barColor: '#f377ab'
+			}));
+			// Visits Chart
+			var visitsChartData = [{
+				// Visits
+				label: 'Visits',
+				data: [
+					[6, 1300],
+					[7, 1600],
+					[8, 1900],
+					[9, 2100],
+					[10, 2500],
+					[11, 2200],
+					[12, 2000],
+					[13, 1950],
+					[14, 1900],
+					[15, 2000]
+				]
+			}, {
+				// Returning Visits
+				label: 'Returning Visits',
+				data: [
+					[6, 500],
+					[7, 600],
+					[8, 550],
+					[9, 600],
+					[10, 800],
+					[11, 900],
+					[12, 800],
+					[13, 850],
+					[14, 830],
+					[15, 1000]
+				],
+				filledPoints: true
+			}];
+			$('#visits-chart').simplePlot(visitsChartData, {
+				series: {
+					points: {
+						show: true,
+						radius: 5
+					},
+					lines: {
+						show: true
+					}
+				},
+				xaxis: {
+					tickDecimals: 2
+				},
+				yaxis: {
+					tickSize: 1000
+				}
+			}, {
+				height: 205,
+				tooltipText: "y + ' visitors at ' + x + '.00h'"
+			});
+			// Comments Tab
+			$('.comment-remove').click(function () {
+				bootbox.confirm("Are you sure?", function (result) {
+					alert("Confirm result: " + result);
+				});
+				return false;
+			});
+			// New Users Tab
+			$('#tab-users a').tooltip();
+		});
+	</script>
+</head>
+<body>
+	<!-- Main navigation bar
+		================================================== -->
+	<header class="navbar navbar-fixed-top" id="main-navbar">
+		<div class="navbar-inner">
+			<div class="container">
+				<a class="logo" href="#"><img alt="Af_logo" src="assets/images/af-logo.png"></a>
+
+				<a class="btn nav-button collapsed" data-toggle="collapse" data-target=".nav-collapse">
+					<span class="icon-reorder"></span>
+				</a>
+
+				<div class="nav-collapse collapse">
+					<form class="navbar-search pull-right" action="" _lpchecked="1">
+						<input type="text" class="search-query" placeholder="Search" style="width: 120px; font-size: 11px;">
+					</form>
+					<ul class="nav">
+						<li class="active"><a href="#">Home</a></li>
+						<li><a href="#">Log an issue</a></li>
+						<li class="divider-vertical"></li>
+					</ul>
+					<ul class="nav pull-right">
+						<li>
+							<ul class="messages">
+								<li>
+									<a href="#"><i class="icon-warning-sign"></i> 2<span class="		responsive-text"> alerts</span></a>
+								</li>
+								<li>
+									<a href="#"><i class="icon-envelope"></i> 25<span class="		responsive-text"> new messages</span></a>
+								</li>
+							</ul>
+						</li>
+						<li class="separator"></li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle usermenu" data-toggle="dropdown">
+								<img alt="Avatar" src="assets/images/avatar.png">
+								<span>&nbsp;&nbsp;Admin</span>
+							</a>
+							<ul class="dropdown-menu">
+								<li>
+									<a href="#">Profile</a>
+								</li>
+								<li>
+									<a href="#">Settings</a>
+								</li>
+								<li class="divider"></li>
+								<li>
+									<a href="index.html">Sign In</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</header>
+	<!-- / Main navigation bar -->
+	
+	<!-- Left navigation panel
+		================================================== -->
+	<nav id="left-panel">
+		<div id="left-panel-content">
+			<ul>
+				<li>
+					<a href="dashboard-stacklock.html"><span class="icon-dashboard"></span>Dashboard</a>
+				</li>
+				<li class="active">
+					<a href="network.html"><span class="icon-sitemap"></span>Network</a>
+				</li>
+				<li>
+					<a href="firewall.html"><span class="icon-exchange"></span>Firewall</a>
+				</li>
+				<li>
+					<a href="snapshots.html"><span class="icon-picture"></span>Snapshots</a>
+				</li>
+				<li>
+					<a href="tickets.html"><span class="icon-ticket"></span>Tickets</a>
+				</li>
+				<li>
+					<a href="alerts.html"><span class="icon-exclamation"></span>Alerts</a>
+				</li>
+				<li>
+					<a href="audit-logs.html"><span class="icon-file"></span>Audit logs</a>
+				</li>
+                <li>
+					<a href="home-graphdashboard.html" style="height:80px;"><span class="icon-bar-chart"></span>Compliance<br />Dashboard</a>
+				</li>
+			</ul>
+		</div>
+		<div class="icon-caret-down"></div>
+		<div class="icon-caret-up"></div>
+	</nav>
+	<!-- / Left navigation panel -->
+	
+	<!-- Page content
+		================================================== -->
+	<section class="container">
+
+		<!-- Server statistics
+			================================================== -->
+		<section class="row-fluid">
+			<div class="box">
+				<h1>Dashboard</h1>
+                
+                <ul class="nav nav-tabs">
+                  <li class="active">
+                    <a href="#networks" data-toggle="tab">Networks</a>
+                  </li>
+                  <li>
+                    <a href="#subnets" data-toggle="tab">Subnets</a>
+                  </li>
+                </ul>
+                
+                <div class="tab-content">
+                	<div class="tab-pane active" id="networks">
+                    	<ul class="breadcrumb">
+                          <li><a href="dashboard-stacklock.html">Home</a> <span class="divider">/</span></li>
+                          <li><a href="network.html">Networks</a> <span class="divider">/</span></li>
+                          <li class="active">New network</li>
+                        </ul>
+                        <h2>New network</h2>
+                        <form class="config">
+                        	<div class="box widget-tasks">
+                                <div class="task">
+                                    <div class="row-fluid">
+                                        <div class="span12">
+                                            <div class="span6">
+                                                <h4>Network details</h4>
+                                                <input type="text" value="Type a name for the network" /><br />
+                                                <input type="text" value="Type a short description for the network" /><br />
+                                                <select>
+                                                    <option selected="selected">Choose the type of network</option>
+                                                    <option>Public</option>
+                                                    <option>Private</option>
+                                                </select><br />
+                                                <select>
+                                                    <option selected="selected">Choose the cluster this network belongs to</option>
+                                                    <option>cl01</option>
+                                                    <option>cl02</option>
+                                                </select>
+                                            </div>
+                                            <div class="span6">
+                                                <h4>Subnet details</h4>
+                                                <select>
+                                                    <option selected="selected">Choose an existing subnet</option>
+                                                    <option>Public</option>
+                                                    <option>Private</option>
+                                                </select><br />
+                                                <div class="alert alert-info">If your subnet does not exist, create one below</div>
+                                                <input type="text" value="Type a name for the subnet" /><br />
+                                                <input type="text" value="Type a short description for the subnet" /><br />
+                                                <input type="text" value="Name the netmask" /><br />
+                                                <input type="text" value="What is the start IP" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <div class="widget-actions">
+                                    <a href="#" class="btn btn-danger" title=""><i class="icon-remove"></i> Cancel</a>
+                                    <a href="#" class="btn btn-green" title=""><i class="icon-save"></i> Save</a>
+                                </div>
+                            </div>
+                            
+                        </form>
+                        
+                    </div>
+                    
+                    <div class="tab-pane" id="subnets">
+                    	
+                        <a href="new-subnet.html" class="btn btn-green pull-right"><i class="icon-plus"></i> New subnet mask</a>
+                        <h2>Subnet masks</h2>
+                        <table class="table table-bordered table-striped">
+                        <th>
+                            <td>Startup</td>
+                            <td>IP Range</td>
+                            <td>Subnet mask</td>
+                            <td>Linked network</td>
+                            <td>&nbsp;</td>
+                        </th>
+                        <tr>
+                        	<td>Public</td>
+                            <td>192.168.1.1</td>
+                            <td>192.168.1.2 - 192.168.1.127</td>
+                            <td>25</td>
+                            <td>QA</td>
+                            <td>
+                            	<a data-toggle="modal" href="#subnet1" class="btn btn-blue btn-mini"><i class="icon-edit"></i> Edit</a> <a href="#" class="btn btn-red btn-mini"><i class="icon-remove"></i> Remove</a>
+                                <div id="subnet1" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby=" myModalLabel" aria-hidden="true">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        <h3 id="myModalLabel">Edit subnet</h3>
+                                    </div>
+                                    <div class="modal-body">
+                                    	<form class="config">
+                                            <div class="row-fluid">
+                                                <div class="span12">
+                                                    <div class="span6">
+                                                        <label>Description:</label>
+                                                        <input type="text" value="Public" /><br />
+                                                        <label>Subnet mask:</label>
+                                                        <input type="text" value="25" />
+                                                    </div>
+                                                    <div class="span6">
+                                                    	<label>Start IP:</label>
+                                                        <input type="text" value="192.168.1.1" /><br />
+                                                        <label>IP Range:</label>
+                                                        <input type="text" value="192.168.1.2 - 192.168.1.127" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-danger" data-dismiss="modal"><i class="icon-remove"></i> Cancel and Close</button>
+                                        <button class="btn btn-green" data-dismiss="modal"><i class="icon-save"></i> Save changes and Close</button>
+                                    </div>
+                                </div>
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                        	<td>Public</td>
+                            <td>172.16.10.1</td>
+                            <td>172.16.10.2 - 172.16.10.255</td>
+                            <td>24</td>
+                            <td>Public</td>
+                            <td>
+                            	<a data-toggle="modal" href="#subnet2" class="btn btn-blue btn-mini"><i class="icon-edit"></i> Edit</a> <a href="#" class="btn btn-red btn-mini"><i class="icon-remove"></i> Remove</a>
+                                <div id="subnet2" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby=" myModalLabel" aria-hidden="true">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        <h3 id="myModalLabel">Edit subnet</h3>
+                                    </div>
+                                    <div class="modal-body">
+                                    	<form class="config">
+                                            <div class="row-fluid">
+                                                <div class="span12">
+                                                    <div class="span6">
+                                                    	<label>Description:</label>
+                                                        <input type="text" value="Public" /><br />
+                                                        <label>Subnet mask:</label>
+                                                        <input type="text" value="24" />
+                                                    </div>
+                                                    <div class="span6">
+                                                        <label>Start IP:</label>
+                                                        <input type="text" value="172.16.10.1" /><br />
+                                                        <label>IP Range:</label>
+                                                        <input type="text" value="172.16.10.2 - 172.16.10.255" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-danger" data-dismiss="modal"><i class="icon-remove"></i> Cancel and Close</button>
+                                        <button class="btn btn-green" data-dismiss="modal"><i class="icon-save"></i> Save changes and Close</button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                        	<td>Private</td>
+                            <td>10.10.10.1</td>
+                            <td>10.10.10.2 - 10.10.10.255</td>
+                            <td>24</td>
+                            <td>Private</td>
+                            <td>
+                            	<a data-toggle="modal" href="#subnet3" class="btn btn-blue btn-mini"><i class="icon-edit"></i> Edit</a> <a href="#" class="btn btn-red btn-mini"><i class="icon-remove"></i> Remove</a>
+                                
+                                <div id="subnet3" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby=" myModalLabel" aria-hidden="true">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        <h3 id="myModalLabel">Edit subnet</h3>
+                                    </div>
+                                    <div class="modal-body">
+                                    	<form class="config">
+                                            <div class="row-fluid">
+                                                <div class="span12">
+                                                    <div class="span6">
+                                                    	<label>Description:</label>
+                                                        <input type="text" value="Private" /><br />
+                                                        <label>Subnet mask:</label>
+                                                        <input type="text" value="24" />
+                                                    </div>
+                                                    <div class="span6">
+                                                        <label>Start IP:</label>
+                                                        <input type="text" value="10.10.10.1" /><br />
+                                                        <label>IP Range:</label>
+                                                        <input type="text" value="10.10.10.2 - 10.10.10.255" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-danger" data-dismiss="modal"><i class="icon-remove"></i> Cancel and Close</button>
+                                        <button class="btn btn-green" data-dismiss="modal"><i class="icon-save"></i> Save changes and Close</button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        </table>
+                        
+                    </div>
+                    
+			</div>
+		</section>
+		
+        <!-- Page footer
+			================================================== -->
+		<footer id="main-footer">
+			Copyright © 2014 <a href="#">StackLock</a>, all rights reserved.
+			<a href="#" class="pull-right" id="on-top-link">
+				On Top&nbsp;<i class=" icon-chevron-up"></i>
+			</a>
+		</footer>
+		<!-- / Page footer -->
+	</section>
+</body>
+</html>

@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7"><![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8"><![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9"><![endif]-->
+<!--[if gt IE 8]><!--><html class="no-js"><!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>
+		StackLock - Dashboard
+	</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width">
+
+	<link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700" rel="stylesheet" type="text/css">
+
+		<link href="assets/css/1.3.0/default/bootstrap.min.css" media="all" rel="stylesheet" type="text/css" id="bootstrap-css">
+        
+		<link href="assets/css/1.3.0/default/adminflare.min.css" media="all" rel="stylesheet" type="text/css" id="adminflare-css">
+
+	
+	<script src="assets/javascripts/1.3.0/modernizr-jquery.min.js" type="text/javascript"></script>
+	<script src="assets/javascripts/1.3.0/bootstrap.min.js" type="text/javascript"></script>
+	<script src="assets/javascripts/1.3.0/adminflare.min.js" type="text/javascript"></script>
+
+	<style type="text/css">
+		/* ======================================================================= */
+		/* Server Statistics */
+		.well.widget-pie-charts .box {
+			margin-bottom: -20px;
+		}
+
+		/* ======================================================================= */
+		/* Why AdminFlare */
+		#why-adminflare ul {
+			position: relative;
+			padding: 0 10px;
+			margin: 0 -10px;
+		}
+
+		#why-adminflare ul:nth-child(2n) {
+			background: rgba(0, 0, 0, 0.02);
+		}
+
+		#why-adminflare li {
+			padding: 8px 10px;
+			list-style: none;
+			font-size: 14px;
+			padding-left: 23px;
+		}
+
+		#why-adminflare li i {
+			color: #666;
+			font-size: 14px;
+			margin: 3px 0 0 -23px;
+			position: absolute;
+		}
+
+
+		/* ======================================================================= */
+		/* Supported Browsers */
+		#supported-browsers header { color: #666; display: block; font-size: 14px; }
+			
+		#supported-browsers header strong { font-size: 18px; }
+
+		#supported-browsers .span10 { margin-bottom: -15px; text-align: center; }
+
+		#supported-browsers .span10 div {
+			margin-bottom: 15px;
+			margin-right: 15px;
+			display: inline-block;
+			width: 120px;
+		}
+
+		#supported-browsers .span10 div:last-child { margin-right: 0; }
+
+		#supported-browsers .span10 img { height: 40px; width: 40px; }
+
+		#supported-browsers .span10 span { line-height: 40px; font-size: 14px; font-weight: 600; }
+		
+		@media (max-width: 767px) {
+			#supported-browsers header { text-align: center; margin-bottom: 20px; }
+		}
+
+		/* ======================================================================= */
+		/* Status panel */
+		.status-example { line-height: 0; position:relative; top: 22px }
+	</style>
+	
+	<script type="text/javascript">
+		$(document).ready(function () {
+			prettyPrint();
+
+			/* Easy Pie Chart
+				================================================== */
+			$('#easy-pie-chart').easyPieChart({
+				animate: 2000,
+				scaleColor: false,
+				lineWidth: 12,
+				lineCap: 'square',
+				size: 100,
+				trackColor: '#e5e5e5',
+				barColor: '#3da0ea'
+			});
+
+
+			/* JQuery Sparklines
+				================================================== */
+			// Line charts taking their values from the tag
+			$('#sparkline-line').sparkline();
+			
+			// Bar charts using inline values
+			$('.sparkline-bar').sparkline('html', {type: 'bar'});
+			
+			// Composite line charts, the second using values supplied via javascript
+			$('#sparkline-compositeline').sparkline('html', { fillColor: false, changeRangeMin: 0, chartRangeMax: 10 });
+			$('#sparkline-compositeline').sparkline([4,1,5,7,9,9,8,7,6,6,4,7,8,4,3,2,2,5,6,7], 
+				{ composite: true, fillColor: false, lineColor: 'red', changeRangeMin: 0, chartRangeMax: 10 });
+			
+			// Discrete charts
+			$('#sparkline-discrete').sparkline('html', { type: 'discrete', lineColor: 'blue', thresholdColor: 'red', thresholdValue: 4 });
+			
+			// Tri-state charts using inline values
+			$('#sparkline-tristate').sparkline('html', {type: 'tristate'});
+
+
+			/* Simple Plot Plugin
+				================================================== */
+			var visitsChartData = [{
+				// Visits
+				label: 'Visits',
+				data: [
+					[6, 1300],
+					[7, 1600],
+					[8, 1900],
+					[9, 2100],
+					[10, 2500],
+					[11, 2200],
+					[12, 2000],
+					[13, 1950],
+					[14, 1900],
+					[15, 2000]
+				]
+			}, {
+				// Returning Visits
+				label: 'Returning Visits',
+				data: [
+					[6, 500],
+					[7, 600],
+					[8, 550],
+					[9, 600],
+					[10, 800],
+					[11, 900],
+					[12, 800],
+					[13, 850],
+					[14, 830],
+					[15, 1000]
+				],
+				filledPoints: true
+			}];
+			$('#visits-line-chart').simplePlot(visitsChartData, {
+				series: {
+					points: {
+						show: true,
+						radius: 5
+					},
+					lines: {
+						show: true
+					}
+				},
+				xaxis: {
+					tickDecimals: 2
+				},
+				yaxis: {
+					tickSize: 1000
+				}
+			}, {
+				tooltipText: "y + ' visitors at ' + x + '.00h'"
+			});
+			$('#visits-bar-chart').simplePlot(visitsChartData, {
+				series: {
+					bars: {
+						show: true,
+						barWidth: .7,
+						align: 'center'
+					}
+				},
+				xaxis: {
+					tickDecimals: 2
+				},
+				yaxis: {
+					tickSize: 1000
+				}
+			}, {
+				tooltipText: "y + ' visitors at ' + x + '.00h'"
+			});
+			$('#visits-bar-chart2').simplePlot(visitsChartData, {
+				series: {
+					bars: {
+						show: true,
+						barWidth: .7,
+						align: 'center'
+					}
+				},
+				xaxis: {
+					tickDecimals: 2
+				},
+				yaxis: {
+					tickSize: 1000
+				}
+			}, {
+				tooltipText: "y + ' visitors at ' + x + '.00h'"
+			});
+			$('#visits-bar-chart3').simplePlot(visitsChartData, {
+				series: {
+					bars: {
+						show: true,
+						barWidth: .7,
+						align: 'center'
+					}
+				},
+				xaxis: {
+					tickDecimals: 2
+				},
+				yaxis: {
+					tickSize: 1000
+				}
+			}, {
+				tooltipText: "y + ' visitors at ' + x + '.00h'"
+			});
+			$('#visits-bar-chart4').simplePlot(visitsChartData, {
+				series: {
+					bars: {
+						show: true,
+						barWidth: .7,
+						align: 'center'
+					}
+				},
+				xaxis: {
+					tickDecimals: 2
+				},
+				yaxis: {
+					tickSize: 1000
+				}
+			}, {
+				tooltipText: "y + ' visitors at ' + x + '.00h'"
+			});
+			var donutChartData = [{
+				label: "Series1",
+				data: 50
+			}, {
+				label: "Series2",
+				data: 30
+			}, {
+				label: "Series3",
+				data: 90
+			}, {
+				label: "Series4",
+				data: 70
+			}];
+			$('#donut-chart').simplePlot(donutChartData, {
+				series: {
+					pie: {
+						show: true,
+						radius: 0.8,
+						innerRadius: 0,
+						label: {
+							show: true,
+							radius: 2 / 4,
+							formatter: function (label, series) {
+								return '<div style="font-size:11px;text-align:center;padding:1px;color:white;">' + Math.round(series.percent) + '%</div>';
+							},
+							background: {
+								opacity: 0
+							}
+						}
+					}
+				},
+			});
+		});
+	</script>
+    
+    <script type="text/javascript">
+		$(document).ready(function() {
+			prettyPrint();
+			$('a[rel=tooltip]').tooltip();
+
+
+			/* Stream widget
+				================================================== */
+			var events = [
+				{ type: 'user-event', message: 'User logged in.', icon: '<img src="assets/images/avatar.png" alt="">', caption: 'Moderator' },
+				{ type: 'server-error', message: 'Error 500: Syntax error in index.php at line 461.' },
+				{ type: 'server-warning', message: 'Warning: Processor load 92%.' },
+				{ type: 'server-success', message: 'Server up.' },
+				{ type: 'mailer', message: 'Newsletter has been sent at 1258 emails.' },
+				{ type: 'shop', message: 'Item "T-shirt Be Happy" has been sold for $20.' },
+				{ type: 'cron', message: 'Job "Clean DB" has been completed.' }
+			]
+	
+			$('#stream-example').afStream({
+				event_types: {
+					'user-event': { },
+					'server-error': {
+						icon: '<i class="icon-hdd" />',
+						caption: 'System'
+					},
+					'server-warning': {
+						icon: '<i class="icon-hdd" />',
+						caption: 'System'
+					},
+					'server-success': {
+						icon: '<i class="icon-hdd" />',
+						caption: 'System'
+					},
+					'mailer': {
+						icon: '<i class="icon-envelope" />',
+						caption: 'Mailer'
+					},
+					'shop': {
+						icon: '<i class="icon-tag" />',
+						caption: 'Shop'
+					},
+					'cron': {
+						icon: '<i class="icon-time" />',
+						caption: 'Cron Daemon'
+					}
+				},
+				height: 370,
+				update_interval: 3, // seconds
+				time_update_interval: 1, // seconds
+				onUpdate: function () {
+					var event = $.extend({}, events[events.push(events.shift()) - 1]);
+					$('#stream-example').afStream('addEvent', event);
+				}
+			});
+
+
+			
+		});
+	</script>
+    
+    
+</head>
+<body>
+	<!-- Main navigation bar
+		================================================== -->
+	<header class="navbar navbar-fixed-top" id="main-navbar">
+		<div class="navbar-inner">
+			<div class="container">
+				<a class="logo" href="#"><img alt="Af_logo" src="assets/images/af-logo.png"></a>
+
+				<a class="btn nav-button collapsed" data-toggle="collapse" data-target=".nav-collapse">
+					<span class="icon-reorder"></span>
+				</a>
+
+				<div class="nav-collapse collapse">
+					<form class="navbar-search pull-right" action="" _lpchecked="1">
+						<input type="text" class="search-query" placeholder="Search" style="width: 120px; font-size: 11px;">
+					</form>
+					<ul class="nav">
+						<li class="active"><a href="#">Home</a></li>
+						<li><a href="#">Log an issue</a></li>
+						<li class="divider-vertical"></li>
+					</ul>
+					<ul class="nav pull-right">
+						<li>
+							<ul class="messages">
+								<li>
+									<a href="#"><i class="icon-warning-sign"></i> 2<span class="		responsive-text"> alerts</span></a>
+								</li>
+								<li>
+									<a href="#"><i class="icon-envelope"></i> 25<span class="		responsive-text"> new messages</span></a>
+								</li>
+							</ul>
+						</li>
+						<li class="separator"></li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle usermenu" data-toggle="dropdown">
+								<img alt="Avatar" src="assets/images/avatar.png">
+								<span>&nbsp;&nbsp;Admin</span>
+							</a>
+							<ul class="dropdown-menu">
+								<li>
+									<a href="#">Profile</a>
+								</li>
+								<li>
+									<a href="#">Settings</a>
+								</li>
+								<li class="divider"></li>
+								<li>
+									<a href="index.html">Sign In</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</header>
+	<!-- / Main navigation bar -->
+	
+	<!-- Left navigation panel
+		================================================== -->
+	<nav id="left-panel">
+		<div id="left-panel-content">
+			<ul>
+				<li>
+					<a href="dashboard-stacklock.html"><span class="icon-dashboard"></span>Dashboard</a>
+				</li>
+				<li>
+					<a href="network.html"><span class="icon-sitemap"></span>Network</a>
+				</li>
+				<li>
+					<a href="firewall.html"><span class="icon-exchange"></span>Firewall</a>
+				</li>
+				<li>
+					<a href="snapshots.html"><span class="icon-picture"></span>Snapshots</a>
+				</li>
+				<li>
+					<a href="tickets.html"><span class="icon-ticket"></span>Tickets</a>
+				</li>
+				<li>
+					<a href="alerts.html"><span class="icon-exclamation"></span>Alerts</a>
+				</li>
+				<li>
+					<a href="audit-logs.html"><span class="icon-file"></span>Audit logs</a>
+				</li>
+                <li class="active">
+					<a href="home-graphdashboard.html" style="height:80px;"><span class="icon-bar-chart"></span>Compliance<br />Dashboard</a>
+				</li>
+			</ul>
+		</div>
+		<div class="icon-caret-down"></div>
+		<div class="icon-caret-up"></div>
+	</nav>
+	<!-- / Left navigation panel -->
+	
+	<!-- Page content
+		================================================== -->
+	<section class="container">
+
+		<!-- Server statistics
+			================================================== -->
+		<section class="row-fluid">
+			<div class="box">
+                <ul class="nav nav-tabs">
+                  <li>
+                    <a href="#home" data-toggle="tab">Home</a>
+                  </li>
+                  <li class="active">
+                    <a href="#rep" data-toggle="tab">Reports</a>
+                  </li>
+                  <li>
+                    <a href="#fa" data-toggle="tab">File audit</a>
+                  </li>
+                  <li>
+                    <a href="#sa" data-toggle="tab">Server audit</a>
+                  </li>
+                  <li>
+                    <a href="#al" data-toggle="tab">Alerts</a>
+                  </li>
+                  <li>
+                    <a href="#conf" data-toggle="tab">Configuration</a>
+                  </li>
+                  <li>
+                    <a href="#adm" data-toggle="tab">Admin</a>
+                  </li>
+                  <li>
+                    <a href="#sup" data-toggle="tab">Support</a>
+                  </li>
+                </ul>
+                
+                <div class="tab-content">
+                	<div class="tab-pane active" id="home">
+                    	<h1>Reports</h1>
+                        <div class="box">
+                        	<div class="pull-right">
+                            	<a href="#" class="btn btn-orange btn-mini" style="margin-bottom: 4px;"><i class="icon-time"></i> Schedule reports</a>
+                            </div>
+                            
+               					 <ul class="nav nav-tabs">
+                                <li class="dropdown">
+                                
+                                
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                        Cumulative reports <b class="caret"></b>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                      <!-- links -->
+                                    </ul>
+                                </li>
+                                <li class="dropdown">
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                        Logon audit <b class="caret"></b>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                      <!-- links -->
+                                    </ul>
+                                </li>
+                                <li class="dropdown">
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                        AD changes <b class="caret"></b>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                      <!-- links -->
+                                    </ul>
+                                </li>
+                                <li class="dropdown">
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                        GPO changes <b class="caret"></b>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                      <!-- links -->
+                                    </ul>
+                                </li>
+                                
+                                <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Compliance<b class="caret"></b></a>                      
+
+						<ul class="dropdown-menu mega-menu">
+    
+						    <li class="mega-menu-column">
+						    <ul>
+						        <li class="nav-header">SOX</li>
+			                     
+                                <li><a href="#">Administrative user activity</a></li>
+								<li><a href="#">All file or folder changes</a></li>    
+						        <li><a href="#">Computer management</a></li>
+						        <li><a href="#">Domain policy changes</a></li>
+						        <li><a href="#">GPO management</a></li>
+						        <li><a href="#">Group management</a></li>
+                                <li><a href="#">Logon duration</a></li>
+                                <li><a href="#">Logon failures</a></li>
+                                <li><a href="#">Logon history</a></li>
+                                <li><a href="#">OU management</a></li>
+                                <li><a href="#">Recent user logon activity</a></li>
+                                <li><a href="#">Terminal services activity</a></li>
+                                <li><a href="#">User management</a></li>
+						    </ul>
+						    </li>    
+        
+						    <li class="mega-menu-column">
+						    <ul>
+						    <li class="nav-header">HIPAA</li>
+						 
+								<li><a href="#">All file or folder changes</a></li>
+						         <li><a href="#">Computer management</a></li>
+						        <li><a href="#">Group management</a></li>
+						          <li><a href="#">Logon duration</a></li>
+						        <li><a href="#">Logon failures</a></li>
+						         <li><a href="#">OU management</a></li>
+                                 <li><a href="#">Recent user logon activity</a></li>
+                                <li><a href="#">Terminal services activity</a></li>
+                                <li><a href="#">User management</a></li>
+						    </ul>
+						    </li> 
+
+						    <li class="mega-menu-column">
+						    <ul>                            
+						    <li class="nav-header">PCI-DSS</li>
+					
+								 <li><a href="#">Administrative user activity</a></li>
+                                <li><a href="#">All file or folder changes</a></li>
+						        <li><a href="#">Folder audit setting changes</a></li>
+						        <li><a href="#">Folder permission changes</a></li>
+						        <li><a href="#">Logon failures</a></li>
+                                <li><a href="#">Logon history</a></li>
+                                <li><a href="#">RADIUS logon history (NPS)</a></li>
+                                <li><a href="#">Recent user logon activity</a></li>
+                                <li><a href="#">Successful file read</a></li>
+                                <li><a href="#">Terminal services activity</a></li>
+						    </ul>
+						    </li> 
+							
+						</ul>
+						
+					</li>
+
+                                <li class="dropdown">
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                        My reports <b class="caret"></b>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                      <!-- links -->
+                                    </ul>
+                                </li>
+                            </ul>
+                        
+                        	<div class="tab-content">
+                				<div class="tab-pane active">
+                                	
+                                	<h2>Logon failures</h2>
+                                    <div class="row-fluid">
+                                    	<div class="span3">
+                                        	<ul class="nav nav-pills nav-stacked">
+                                                <li class="active"><a href="#" style="background-color: #f0f0f0; color: #555555;">User logon reports <i class="icon-angle-down"></i></a>
+                                                
+                                                	<ul class="nav nav-pills nav-stacked">
+                                                    	<li class="active"><a href="#">Logon failures</a></li>
+                                                        <li><a href="#">Logon failures based on users</a></li>
+                                                        <li><a href="#">Failures due to bad user name</a></li>
+                                                        <li><a href="#">Failures due to bad password</a></li>
+                                                        <li><a href="#">Logon activity based on IP address</a></li>
+                                                        <li><a href="#">Domain controller logon activity</a></li>
+                                                        <li><a href="#">Member server logon activity</a></li>
+                                                        <li><a href="#">Workstation logon activity</a></li>
+                                                        <li><a href="#">User logon activity</a></li>
+                                                        <li><a href="#">Recent user logon activity</a></li>
+                                                        <li><a href="#">Last logon on workstations</a></li>
+                                                        <li><a href="#">User's last logon</a></li>
+                                                        <li><a href="#">Users logged into multiple computers</a></li>
+                                                    </ul>
+                                                
+                                                </li>
+                                                <li><a href="#">Local logon-logoff <i class="icon-angle-right"></i></a></li>
+                                                <li><a href="#">Account management <i class="icon-angle-right"></i></a></li>
+                                                <li><a href="#">User management <i class="icon-angle-right"></i></a></li>
+                                                <li><a href="#">Group management <i class="icon-angle-right"></i></a></li>
+                                                <li><a href="#">Computer management <i class="icon-angle-right"></i></a></li>
+                                                <li><a href="#">OU management <i class="icon-angle-right"></i></a></li>
+                                                <li><a href="#">GPO management <i class="icon-angle-right"></i></a></li>
+                                                <li><a href="#">Advanced GPO reports <i class="icon-angle-right"></i></a></li>
+                                                <li><a href="#">Other AD object changes <i class="icon-angle-right"></i></a></li>
+                                                <li><a href="#">Configuration auditing <i class="icon-angle-right"></i></a></li>
+                                                <li><a href="#">Permission changes <i class="icon-angle-right"></i></a></li>
+                                                <li><a href="#">DNS changes <i class="icon-angle-right"></i></a></li>
+                                                <li><a href="#">Removable storage audit <i class="icon-angle-right"></i></a></li>
+                                                <li><a href="#">Domain object changes <i class="icon-angle-right"></i></a></li>
+                                                <li><a href="#">Profile based reports <i class="icon-angle-right"></i></a></li>
+                                                <li><a href="#">My reports <i class="icon-angle-right"></i></a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="span9">
+                                        	<div class="pull-right">
+                                                <i class="icon-file"></i> Export as <b class="icon-angle-right"></b> | <i class="icon-star-empty"></i> Add to <b class="icon-angle-right"></b> | <i class="icon-folder-open"></i> More <b class="icon-angle-right"></b>   
+                                            </div>
+                                        	<h4>Logon failures</h4>
+                                            <div class="pull-left">
+                                            	Select domain&nbsp;
+                                                <select class="input-medium">
+                                                	<option selected="selected">adsupport.com</option>
+                                                </select>&nbsp;
+                                                Period&nbsp;
+                                                <select class="input-medium">
+                                                	<option selected="selected">Last 24 hours</option>
+                                                </select>
+                                            </div>
+                                            <h3 class="pull-right">
+                                                <div class="btn-group">
+                                                    <button class="btn active">All</button>
+                                                    <button class="btn">Business</button>
+                                                    <button class="btn">Non-business</button>
+                                                </div>
+                                            </h3>
+                                            <div style="clear: both;">&nbsp;</div>
+                                            <div id="visits-bar-chart"></div>
+                                            <div style="clear: both;">&nbsp;</div>
+                                        	<table class="table table-bordered datagrid datagrid-stretch-header">
+                                                <thead>
+                                                    <tr>
+                                                        <th colspan="7">
+                                                            <span class="datagrid-header-title">Geographic Data Sample</span>
+                            
+                                                            <div class="datagrid-header-left">
+                                                                <div class="input-append search datagrid-search">
+                                                                    <input type="text" class="input-medium" placeholder="Search">
+                                                                    <button class="btn"><i class="icon-search"></i></button>
+                                                                </div>
+                                                            </div>
+                                                            <div class="datagrid-header-right">
+                                                                <div class="select filter " data-resize="auto">
+                                                                    <a href="#" class="btn">Add/remove columns</a>
+                                                                </div>
+                                                            </div>
+                                                        </th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="sortable" width="12%">User</th>
+                                                        <th class="sortable" width="10%">Client IP address</th>
+                                                        <th class="sortable" width="16%">Client host name</th>
+                                                        <th class="sortable" width="16%">Domain controller</th>
+                                                        <th class="sortable" width="18%">Logon time</th>
+                                                        <th class="sortable" width="8%">Event type</th>
+                                                        <th class="sortable" width="20%">Failure reason</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                            <div class="datagrid-stretch-wrapper">
+                                                <table id="MyGrid" class="table table-bordered datagrid table-condensed">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td width="12%">anumugam-0153</td>
+                                                            <td width="10%">127.0.0.1</td>
+                                                            <td width="16%">ADS-DC</td>
+                                                            <td width="16%">ADS-DC</td>
+                                                            <td width="18%">Nov 20.2013<br>
+04:11:31PM</td>
+                                                            <td width="8%">Failure</td>
+                                                            <td width="20%">Account disabled, expired or locked out</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>anumugam-0153</td>
+                                                            <td>127.0.0.1</td>
+                                                            <td>ADS-DC</td>
+                                                            <td>ADS-DC</td>
+                                                            <td>Nov 20.2013<br>
+04:11:31PM</td>
+                                                            <td>Failure</td>
+                                                            <td>Account disabled, expired or locked out</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>anumugam-0153</td>
+                                                            <td>127.0.0.1</td>
+                                                            <td>ads'-dc.adsupport.com</td>
+                                                            <td>ads'-dc.adsupport.com</td>
+                                                            <td>Nov 20.2013<br>
+04:11:31PM</td>
+                                                            <td>Failure</td>
+                                                            <td>Account disabled, expired or locked out</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>anumugam-0153</td>
+                                                            <td>127.0.0.1</td>
+                                                            <td>ads'-dc.adsupport.com</td>
+                                                            <td>ads'-dc.adsupport.com</td>
+                                                            <td>Nov 20.2013<br>
+04:11:31PM</td>
+                                                            <td>Failure</td>
+                                                            <td>Account disabled, expired or locked out</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>anumugam-0153</td>
+                                                            <td>127.0.0.1</td>
+                                                            <td>ADS-DC</td>
+                                                            <td>ADS-DC</td>
+                                                            <td>Nov 20.2013<br>
+04:11:31PM</td>
+                                                            <td>Failure</td>
+                                                            <td>Bad password</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>anumugam-0153</td>
+                                                            <td>127.0.0.1</td>
+                                                            <td>ADS-DC</td>
+                                                            <td>ADS-DC</td>
+                                                            <td>Nov 20.2013<br>
+04:11:31PM</td>
+                                                            <td>Failure</td>
+                                                            <td>Bad password</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>anumugam-0153</td>
+                                                            <td>127.0.0.1</td>
+                                                            <td>ADS-DC</td>
+                                                            <td>ADS-DC</td>
+                                                            <td>Nov 20.2013<br>
+04:11:31PM</td>
+                                                            <td>Failure</td>
+                                                            <td>Bad password</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>anumugam-0153</td>
+                                                            <td>127.0.0.1</td>
+                                                            <td>ADS-DC</td>
+                                                            <td>ADS-DC</td>
+                                                            <td>Nov 20.2013<br>
+04:11:31PM</td>
+                                                            <td>Failure</td>
+                                                            <td>Bad password</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>anumugam-0153</td>
+                                                            <td>127.0.0.1</td>
+                                                            <td>ADS-DC</td>
+                                                            <td>ADS-DC</td>
+                                                            <td>Nov 20.2013<br>
+04:11:31PM</td>
+                                                            <td>Failure</td>
+                                                            <td>Password has expired</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>anumugam-0153</td>
+                                                            <td>127.0.0.1</td>
+                                                            <td>ADS-DC</td>
+                                                            <td>ADS-DC</td>
+                                                            <td>Nov 20.2013<br>
+04:11:31PM</td>
+                                                            <td>Failure</td>
+                                                            <td>Account disabled, expired or locked out</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <table class="table table-bordered datagrid datagrid-stretch-footer">
+                                                <tfoot>
+                                                    <tr>
+                                                        <th colspan="7">
+                                                            <div class="datagrid-footer-left" style="visibility: visible;">
+                                                                <div class="grid-controls">
+                                                                    <span>
+                                                                        <span class="grid-start">1</span> -
+                                                                        <span class="grid-end">10</span> of
+                                                                        <span class="grid-count">146 items</span>
+                                                                    </span>
+                                                                    <div class="select grid-pagesize" data-resize="auto">
+                                                                        <button data-toggle="dropdown" class="btn dropdown-toggle">
+                                                                            <span class="dropdown-label">10</span>
+                                                                            <span class="caret"></span>
+                                                                        </button>
+                                                                        <ul class="dropdown-menu">
+                                                                            <li data-value="5"><a href="#">5</a></li>
+                                                                            <li data-value="10"><a href="#">10</a></li>
+                                                                            <li data-value="20"><a href="#">20</a></li>
+                                                                            <li data-value="50"><a href="#">50</a></li>
+                                                                            <li data-value="100"><a href="#">100</a></li>
+                                                                        </ul>
+                                                                    </div>
+                                                                    <span>Per Page</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="datagrid-footer-right" style="visibility: visible;">
+                                                                <div class="grid-pager">
+                                                                    <button type="button" class="btn grid-prevpage" disabled="disabled"><i class="icon-chevron-left"></i></button>
+                                                                    <span>Page</span>
+                            
+                                                                    <div class="input-append dropdown combobox">
+                                                                        <input type="text">
+                                                                        <button class="btn" data-toggle="dropdown"><i class="caret"></i></button>
+                                                                        <ul class="dropdown-menu"><li><a>1</a></li><li><a>2</a></li><li><a>3</a></li><li><a>4</a></li><li><a>5</a></li><li><a>6</a></li><li><a>7</a></li><li><a>8</a></li><li><a>9</a></li><li><a>10</a></li><li><a>11</a></li><li><a>12</a></li><li><a>13</a></li><li><a>14</a></li><li><a>15</a></li></ul>
+                                                                    </div>
+                                                                    <span>of <span class="grid-pages">15</span></span>
+                                                                    <button type="button" class="btn grid-nextpage"><i class="icon-chevron-right"></i></button>
+                                                                </div>
+                                                            </div>
+                                                        </th>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-pane" id="rep">
+                    	<h1>Reports</h1>
+                    </div>
+                    
+                    <div class="tab-pane" id="fa">
+                    	<h1>File audit</h1>
+                    </div>
+                    
+                    <div class="tab-pane" id="sa">
+                    	<h1>Server audit</h1>
+                    </div>
+                    
+                    <div class="tab-pane" id="al">
+                    	<h1>Alerts</h1>
+                    </div>
+                    
+                    <div class="tab-pane" id="conf">
+                    	<h1>Configuration</h1>
+                    </div>
+                    
+                    <div class="tab-pane" id="adm">
+                    	<h1>Administration</h1>
+                    </div>
+                    
+                    <div class="tab-pane" id="sup">
+                    	<h1>Support</h1>
+                    </div>
+                </div>
+			</div>
+		</section>
+		
+        <!-- Page footer
+			================================================== -->
+		<footer id="main-footer">
+			Copyright © 2014 <a href="#">StackLock</a>, all rights reserved.
+			<a href="#" class="pull-right" id="on-top-link">
+				On Top&nbsp;<i class=" icon-chevron-up"></i>
+			</a>
+		</footer>
+		<!-- / Page footer -->
+	</section>
+</body>
+</html>
